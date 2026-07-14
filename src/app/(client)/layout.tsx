@@ -13,6 +13,7 @@ interface SessionUser {
 
 const navLinks = [
   { href: "/espace-client", label: "Accueil" },
+  { href: "/espace-client/tickets", label: "Mes tickets" },
   { href: "/espace-client/offres", label: "Nos offres" },
   { href: "/espace-client/abonnement", label: "Mon abonnement" },
   { href: "/espace-client/assistant", label: "Assistant IA" },
@@ -38,8 +39,14 @@ export default function ClientLayout({
     }
     const parsed: SessionUser = JSON.parse(raw);
     if (parsed.role !== "client") {
-      // Un admin/agent qui tombe ici : on le renvoie vers son espace
-      router.replace("/");
+      // Un admin/agent qui tombe ici : on le renvoie vers son propre espace
+      if (parsed.role === "admin") {
+        router.replace("/admin");
+      } else if (parsed.role === "agent") {
+        router.replace("/agentSupport");
+      } else {
+        router.replace("/login");
+      }
       return;
     }
     setUser(parsed);

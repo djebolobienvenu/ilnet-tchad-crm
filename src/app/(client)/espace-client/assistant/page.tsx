@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { addTicket } from "@/lib/ticketsStore";
 
 interface SessionUser {
   name: string;
@@ -126,27 +127,28 @@ export default function ClientAssistantPage() {
   const handleOuvrirTicket = () => {
     if (!user || !pendingTicket) return;
 
-    const tickets = JSON.parse(localStorage.getItem("ilnet_client_tickets") || "[]");
     const lastUserMessage = [...messages].reverse().find((m) => m.sender === "Utilisateur");
+    const today = new Date();
+    const dateStr = today.toLocaleDateString("fr-FR");
 
-    tickets.push({
-      id: "t" + Date.now(),
+    addTicket({
+      client: user.name,
       clientEmail: user.email,
-      clientName: user.name,
-      categorie: pendingTicket,
-      message: lastUserMessage?.text || "",
+      categorie: pendingTicket as "Panne internet" | "Facturation" | "Lenteur réseau" | "Autre",
+      date: dateStr,
       statut: "Ouvert",
       priorite: "Moyenne",
-      date: new Date().toISOString(),
+      messages: lastUserMessage
+        ? [{ id: 1, auteur: "Client", texte: lastUserMessage.text, date: today.toISOString() }]
+        : [],
     });
-    localStorage.setItem("ilnet_client_tickets", JSON.stringify(tickets));
 
     setMessages((prev) => [
       ...prev,
       {
         id: prev.length + 1,
         sender: "IA",
-        text: `✅ Un ticket "${pendingTicket}" a été ouvert. Un agent ILNET-TCHAD va vous contacter très prochainement.`,
+        text: `✅ Un ticket "${pendingTicket}" a été ouvert. Vous pouvez suivre son évolution dans "Mes tickets". Un agent ILNET-TCHAD va vous répondre très prochainement.`,
       },
     ]);
     setPendingTicket(null);

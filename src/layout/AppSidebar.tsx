@@ -4,78 +4,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
-import {
-  BoxCubeIcon,
-  CalenderIcon,
-  ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots,
-  ListIcon,
-  PageIcon,
-  PieChartIcon,
-  PlugInIcon,
-  TableIcon,
-  UserCircleIcon,
-} from "../icons/index";
-
-type NavItem = {
-  name: string;
-  icon: React.ReactNode;
-  path?: string;
-  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
-
-// 🟢 MENU PRINCIPAL - ILNET-TCHAD CRM
-const navItems: NavItem[] = [
-  {
-    icon: <GridIcon />,
-    name: "Tableau de bord",
-    path: "/",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Clients",
-    path: "/clients",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Abonnements",
-    path: "/subscriptions",
-  },
-  {
-    icon: <TableIcon />,
-    name: "Tickets",
-    path: "/tickets",
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Assistant IA",
-    path: "/assistant",
-  },
-];
-
-// 🟢 AUTRES MENUS
-const othersItems: NavItem[] = [
-  {
-    icon: <CalenderIcon />,
-    name: "Calendrier",
-    path: "/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Mon Profil",
-    path: "/profile",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Paramètres",
-    path: "/settings",
-  },
-];
+import { ChevronDownIcon, HorizontaLDots } from "../icons/index";
+import { adminNavItems, adminOthersItems } from "./AdminMenuConfig";
+import { agentNavItems, agentOthersItems } from "./AgentSupportMenuConfig";
+import type { NavItem } from "@/types/menu";
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
+
+  // 🟢 Choix dynamique de la configuration du menu selon la section
+  const isAgentSection = pathname?.startsWith("/agentSupport");
+  const navItems: NavItem[] = isAgentSection ? agentNavItems : adminNavItems;
+  const othersItems: NavItem[] = isAgentSection ? agentOthersItems : adminOthersItems;
+  const homeHref = isAgentSection ? "/agentSupport" : "/admin";
 
   const renderMenuItems = (
     navItems: NavItem[],
@@ -236,7 +178,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname, isActive]);
+  }, [pathname, isActive, navItems, othersItems]);
 
   useEffect(() => {
     if (openSubmenu !== null) {
@@ -283,7 +225,7 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link href="/">
+        <Link href={homeHref}>
           {isExpanded || isHovered || isMobileOpen ? (
             <Image
               src="/images/logo/ilnet-logo.png"
@@ -315,7 +257,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu Principal"
+                  isAgentSection ? "Menu Agent" : "Menu Principal"
                 ) : (
                   <HorizontaLDots />
                 )}
@@ -341,7 +283,6 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-
       </div>
     </aside>
   );

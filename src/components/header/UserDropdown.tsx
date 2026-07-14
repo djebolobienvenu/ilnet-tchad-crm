@@ -87,7 +87,7 @@ export default function UserDropdown() {
             {user?.email || "email@ilnet.com"}
           </span>
           <span className="mt-0.5 block text-theme-xs text-blue-600 dark:text-blue-400">
-            {user?.role === "admin" ? "🔑 Administrateur" : "👤 Agent Support"}
+            {user?.role === "admin" ? "🔑 Administrateur" : "👤 Agent Support "}
           </span>
         </div>
 

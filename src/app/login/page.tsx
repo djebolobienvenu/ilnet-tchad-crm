@@ -20,19 +20,19 @@ export default function LoginPage() {
     // Simulation de connexion (plus tard avec API)
     setTimeout(() => {
       if (email === "admin@ilnet.com" && password === "admin123") {
-        localStorage.setItem("user", JSON.stringify({ 
-          email, 
-          role: "admin", 
-          name: "Administrateur" 
+        localStorage.setItem("user", JSON.stringify({
+          email,
+          role: "admin",
+          name: "Administrateur"
         }));
-        router.push("/");
+        router.push("/admin");
       } else if (email === "agent@ilnet.com" && password === "agent123") {
-        localStorage.setItem("user", JSON.stringify({ 
-          email, 
-          role: "agent", 
-          name: "Agent Support" 
+        localStorage.setItem("user", JSON.stringify({
+          email,
+          role: "agent",
+          name: "Agent Support"
         }));
-        router.push("/");
+        router.push("/agentSupport");
       } else {
         // Vérifier parmi les comptes clients créés via /inscription
         const clients: { name: string; email: string; password: string }[] =
@@ -58,7 +58,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        {/* Logo */}
         <div className="text-center mb-8">
           <Image
             src="/images/logo/ilnet-logo.png"

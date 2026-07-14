@@ -1,8 +1,17 @@
 "use client";
 
-import { tickets } from "@/lib/mockData";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { getAllTickets } from "@/lib/ticketsStore";
+import type { Ticket } from "@/lib/mockData";
 
 export default function TicketsPage() {
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+
+  useEffect(() => {
+    setTickets(getAllTickets());
+  }, []);
+
   const ticketsOuverts = tickets.filter((t) => t.statut === "Ouvert").length;
   const ticketsEnCours = tickets.filter((t) => t.statut === "En cours").length;
   const ticketsResolus = tickets.filter((t) => t.statut === "Résolu").length;
@@ -23,9 +32,6 @@ export default function TicketsPage() {
           <h1 className="text-2xl font-bold text-gray-800">🎫 Gestion des tickets</h1>
           <p className="text-gray-500">Suivez et gérez les demandes de vos clients</p>
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-          + Nouveau ticket
-        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -76,12 +82,22 @@ export default function TicketsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-3 text-center">
-                  <button className="text-blue-600 hover:text-blue-800 mr-3">👁️</button>
-                  <button className="text-green-600 hover:text-green-800 mr-3">✏️</button>
-                  <button className="text-red-600 hover:text-red-800">🗑️</button>
+                  <Link
+                    href={`/admin/tickets/${ticket.id}`}
+                    className="text-blue-600 hover:text-blue-800 text-xs font-medium"
+                  >
+                    Voir / Répondre →
+                  </Link>
                 </td>
               </tr>
             ))}
+            {tickets.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-6 py-6 text-center text-gray-400">
+                  Aucun ticket pour l&apos;instant.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
