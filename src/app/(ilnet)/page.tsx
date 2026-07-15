@@ -1,405 +1,196 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Reveal from "@/components/ilnet/Reveal";
+import AnimatedCounter from "@/components/ilnet/AnimatedCounter";
+import { IconFiabilite, IconInnovation, IconTransparence, IconAccessibilite } from "@/components/ilnet/ValeurIcons";
 
-const slides = [
+const valeurs = [
+  { icon: <IconFiabilite />, titre: "Fiabilité" },
+  { icon: <IconInnovation />, titre: "Innovation" },
+  { icon: <IconTransparence />, titre: "Transparence" },
+  { icon: <IconAccessibilite />, titre: "Accessibilité" },
+];
+
+const offresDuMoment = [
   {
-    emoji: "📡",
-    titre: "Gérez vos abonnements en ligne",
-    texte: "Fibre, 4G, forfaits sur-mesure : souscrivez et suivez votre offre en quelques clics.",
-    gradient: "from-blue-600 to-blue-400",
+    titre: "Routeur à 30 000 F + 30 Go",
+    sousTitre: "valable 01 mois",
+    texte: "Du wifi haut débit pour votre maison ou votre bureau.",
+    icon: "📶",
   },
   {
-    emoji: "🎫",
-    titre: "Un support réactif, à portée de main",
-    texte: "Ouvrez un ticket, échangez avec un agent, suivez la résolution en temps réel.",
-    gradient: "from-orange-500 to-amber-400",
-  },
-  {
-    emoji: "🤖",
-    titre: "Assistant IA disponible 24h/24",
-    texte: "Panne, facturation, question sur votre offre : une réponse immédiate, jour et nuit.",
-    gradient: "from-emerald-600 to-teal-400",
-  },
-  {
-    emoji: "👥",
-    titre: "Toute la relation client, un seul endroit",
-    texte: "Une plateforme pensée pour ILNET-TCHAD : clients, agents et administrateurs réunis.",
-    gradient: "from-violet-600 to-purple-400",
+    titre: "Fibre Optique domicile",
+    sousTitre: "à partir de 25 000 franc",
+    texte: "Internet illimité + télévision HD.",
+    icon: "🏠",
   },
 ];
 
-const fonctionnalites = [
-  { icon: "📡", titre: "Offres flexibles", texte: "Fibre et 4G, sans engagement, à tous les budgets." },
-  { icon: "🎫", titre: "Suivi des tickets", texte: "Historique complet de vos échanges avec le support." },
-  { icon: "🤖", titre: "Assistant IA", texte: "Des réponses immédiates aux questions fréquentes." },
-  { icon: "🔒", titre: "Espace sécurisé", texte: "Vos données et votre compte protégés." },
+const pourquoiNousChoisir = [
+  { icon: "💼", titre: "Qualité", texte: "Des solutions fiables et durables, conçues pour offrir la meilleure expérience à chaque client." },
+  { icon: "🤝", titre: "Disponibilité", texte: "Un service accessible 24h/24 et 7j/7, toujours prêt à répondre à vos besoins." },
+  { icon: "💬", titre: "Performance", texte: "Des technologies puissantes pour une meilleure satisfaction de vos attentes." },
 ];
 
-// ⚠️ Cette liste doit rester identique à celle de /espace-client/offres
-export const offres = [
-  {
-    id: "fibre50",
-    nom: "Fibre 50 Mbps",
-    prix: "15 000",
-    debit: "50 Mbps",
-    description: "Idéal pour un usage quotidien : navigation, streaming, télétravail léger.",
-    couleur: "border-blue-500",
-  },
-  {
-    id: "fibre100",
-    nom: "Fibre 100 Mbps",
-    prix: "25 000",
-    debit: "100 Mbps",
-    description: "Pour les familles connectées : plusieurs appareils, streaming HD/4K.",
-    couleur: "border-orange-500",
-    populaire: true,
-  },
-  {
-    id: "fibre200",
-    nom: "Fibre 200 Mbps",
-    prix: "40 000",
-    debit: "200 Mbps",
-    description: "Pour les professionnels et gros usages : visioconférence, cloud, gaming.",
-    couleur: "border-purple-500",
-  },
-  {
-    id: "4g20",
-    nom: "4G 20 Go",
-    prix: "10 000",
-    debit: "20 Go / mois",
-    description: "Solution mobile flexible, sans engagement, idéale en complément.",
-    couleur: "border-green-500",
-  },
+const statistiques = [
+  { valeur: 99.99, decimales: 2, suffixe: "%", libelle: "Satisfaction" },
+  { valeur: 99.9, decimales: 1, suffixe: "%", libelle: "Qualité" },
+  { valeur: 99.9, decimales: 1, suffixe: "%", libelle: "Équipe" },
+  { valeur: 99.99, decimales: 2, suffixe: "%", libelle: "Solution" },
 ];
-
-interface OffreSelectionnee {
-  nom: string;
-  prix: string;
-}
 
 export default function IlnetHomePage() {
-  const router = useRouter();
-  const [slideActif, setSlideActif] = useState(0);
-  const [offreChoisie, setOffreChoisie] = useState<OffreSelectionnee | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlideActif((prev) => (prev + 1) % slides.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <>
-      {/* Hero + carrousel */}
-      <section className="max-w-6xl mx-auto px-4 pt-14 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 leading-tight">
-            Bienvenue chez <span className="text-blue-600">ILNET-TCHAD</span>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-blue-50">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
+          <div className="blob blob-1" />
+          <div className="blob blob-2" />
+        </div>
+
+        <div className="max-w-4xl mx-auto px-4 py-20 text-center animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">
+            ILNET <span className="text-orange-500">TELECOM</span>
           </h1>
-          <p className="text-lg text-gray-500 mb-2">Make your life easy with internet !</p>
-          <p className="text-gray-500 mb-8 max-w-md">
-            Votre fournisseur d&apos;accès internet au Tchad. Gérez votre abonnement,
-            suivez vos demandes de support et discutez avec notre assistant IA,
-            le tout depuis votre espace client.
+          <p className="text-xl text-gray-600 mb-8">
+            Leader des FAI et de la télédistribution au Tchad.
           </p>
 
-          <div className="flex items-center gap-4">
-            <Link
-              href="/inscription"
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
-            >
-              Créer mon compte client
-            </Link>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link
               href="/service"
-              className="bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition"
+              className="bg-white border border-blue-200 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 hover:scale-105 transition-all shadow-sm"
             >
-              Découvrir nos services
+              Nos Services →
+            </Link>
+            <Link
+              href="/inscription"
+              className="bg-orange-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-600 hover:scale-105 hover:shadow-lg transition-all"
+            >
+              Créer mon compte →
             </Link>
           </div>
         </div>
+      </section>
 
-        <div className="relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xl">
-          {slides.map((slide, index) => (
-            <div
-              key={slide.titre}
-              className={`absolute inset-0 flex flex-col items-center justify-center text-center px-8 bg-gradient-to-br ${slide.gradient} transition-opacity duration-700 ${
-                index === slideActif ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <span className="text-6xl mb-4">{slide.emoji}</span>
-              <h3 className="text-white text-xl font-bold mb-2">{slide.titre}</h3>
-              <p className="text-white/90 text-sm max-w-sm">{slide.texte}</p>
-            </div>
+      {/* Valeurs */}
+      <section className="bg-white border-b">
+        <div className="max-w-5xl mx-auto px-4 py-12 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          {valeurs.map((v, i) => (
+            <Reveal key={v.titre} delai={i * 100} className="text-center">
+              <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-orange-50 flex items-center justify-center p-4">
+                {v.icon}
+              </div>
+              <p className="font-semibold text-gray-800">{v.titre}</p>
+            </Reveal>
           ))}
+        </div>
+      </section>
 
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {slides.map((slide, index) => (
-              <button
-                key={slide.titre}
-                onClick={() => setSlideActif(index)}
-                aria-label={`Aller à la diapositive ${index + 1}`}
-                className={`h-2 rounded-full transition-all ${
-                  index === slideActif ? "w-6 bg-white" : "w-2 bg-white/50"
-                }`}
-              />
+      {/* Offres du moment (teaser -> renvoie vers la page /offres) */}
+      <section className="bg-blue-50">
+        <div className="max-w-5xl mx-auto px-4 py-14">
+          <Reveal className="text-center mb-8">
+            <h2 className="text-xl font-bold text-gray-800">Offres du moment</h2>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {offresDuMoment.map((o, i) => (
+              <Reveal key={o.titre} delai={i * 120}>
+                <div className="bg-white rounded-xl shadow p-6 flex items-center gap-5 hover:shadow-lg transition-shadow duration-300">
+                  <span className="text-5xl">{o.icon}</span>
+                  <div className="flex-1">
+                    <p className="text-orange-600 font-bold leading-snug">{o.titre}</p>
+                    <p className="text-orange-500 text-sm font-medium mb-1">{o.sousTitre}</p>
+                    <p className="text-sm text-gray-500 mb-3">{o.texte}</p>
+                    <Link
+                      href="/offres"
+                      className="inline-block bg-orange-500 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-orange-600 transition"
+                    >
+                      Plus d&apos;infos
+                    </Link>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link
+              href="/offres"
+              className="inline-block bg-white border border-orange-300 text-orange-600 px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-orange-50 transition"
+            >
+              Voir toutes nos offres →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Pourquoi nous choisir */}
+      <section className="bg-white border-b">
+        <div className="max-w-5xl mx-auto px-4 py-14">
+          <Reveal className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-gray-800">Pourquoi nous choisir ?</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {pourquoiNousChoisir.map((p, i) => (
+              <Reveal key={p.titre} delai={i * 120}>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 shrink-0 rounded-full bg-blue-100 flex items-center justify-center text-xl">
+                    {p.icon}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-800 mb-1">{p.titre}</p>
+                    <p className="text-sm text-gray-500">{p.texte}</p>
+                  </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Nos offres */}
-      <section className="bg-white border-t border-b" id="offres">
-        <div className="max-w-6xl mx-auto px-4 py-14">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">Nos offres</h2>
-          <p className="text-gray-500 text-center mb-10">
-            Choisissez l&apos;offre qui correspond à vos besoins, sans engagement.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {offres.map((offre) => (
-              <div
-                key={offre.id}
-                className={`relative bg-gray-50 rounded-lg p-6 border-t-4 ${offre.couleur} flex flex-col`}
-              >
-                {offre.populaire && (
-                  <span className="absolute -top-3 right-4 bg-orange-500 text-white text-xs font-medium px-3 py-1 rounded-full">
-                    Populaire
-                  </span>
-                )}
-                <p className="font-semibold text-gray-800 text-lg">{offre.nom}</p>
-                <p className="text-2xl font-bold text-gray-900 mt-2">
-                  {offre.prix} <span className="text-sm font-normal text-gray-500">FCFA / mois</span>
+      {/* Statistiques */}
+      <section className="bg-orange-500">
+        <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          {statistiques.map((s, i) => (
+            <Reveal key={s.libelle} delai={i * 100}>
+              <div className="bg-orange-600/40 rounded-lg py-6">
+                <p className="text-2xl sm:text-3xl font-bold text-white">
+                  <AnimatedCounter cible={s.valeur} suffixe={s.suffixe} decimales={s.decimales} />
                 </p>
-                <p className="text-sm text-blue-600 font-medium mt-1">{offre.debit}</p>
-                <p className="text-sm text-gray-500 mt-3 flex-1">{offre.description}</p>
-                <button
-                  onClick={() => setOffreChoisie({ nom: offre.nom, prix: offre.prix })}
-                  className="mt-5 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition"
-                >
-                  Souscrire
-                </button>
+                <p className="text-orange-50 text-sm mt-1">{s.libelle}</p>
               </div>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* Fonctionnalités */}
-      <section>
-        <div className="max-w-6xl mx-auto px-4 py-14">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-10">
-            Tout ce dont vous avez besoin, au même endroit
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {fonctionnalites.map((f) => (
-              <div
-                key={f.titre}
-                className="bg-white rounded-lg p-6 text-center hover:shadow-md transition shadow"
-              >
-                <span className="text-3xl mb-3 inline-block">{f.icon}</span>
-                <p className="font-semibold text-gray-800 mb-1">{f.titre}</p>
-                <p className="text-sm text-gray-500">{f.texte}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
 
-      {offreChoisie && (
-        <SouscriptionModal
-          offre={offreChoisie}
-          onClose={() => setOffreChoisie(null)}
-          onSuccess={() => router.push("/espace-client/abonnement")}
-        />
-      )}
+        @keyframes blobMove {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -40px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        .blob {
+          position: absolute;
+          border-radius: 9999px;
+          filter: blur(70px);
+          opacity: 0.35;
+          animation: blobMove 14s ease-in-out infinite;
+        }
+        .blob-1 { width: 380px; height: 380px; background: #fb923c; top: -100px; left: -100px; }
+        .blob-2 { width: 320px; height: 320px; background: #60a5fa; bottom: -100px; right: -80px; animation-delay: 4s; }
+      `}</style>
     </>
-  );
-}
-
-function SouscriptionModal({
-  offre,
-  onClose,
-  onSuccess,
-}: {
-  offre: OffreSelectionnee;
-  onClose: () => void;
-  onSuccess: () => void;
-}) {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (form.password !== form.confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
-      return;
-    }
-    if (form.password.length < 6) {
-      setError("Le mot de passe doit contenir au moins 6 caractères.");
-      return;
-    }
-
-    setIsLoading(true);
-
-    setTimeout(() => {
-      const existingClients = JSON.parse(localStorage.getItem("ilnet_clients") || "[]");
-
-      if (existingClients.some((c: { email: string }) => c.email === form.email)) {
-        setError("Un compte existe déjà avec cet email. Connectez-vous plutôt.");
-        setIsLoading(false);
-        return;
-      }
-
-      const newClient = {
-        id: "c" + Date.now(),
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        password: form.password,
-        address: form.address,
-        createdAt: new Date().toISOString(),
-      };
-
-      localStorage.setItem("ilnet_clients", JSON.stringify([...existingClients, newClient]));
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: newClient.name, email: newClient.email, role: "client" })
-      );
-
-      const existingSubs = JSON.parse(localStorage.getItem("ilnet_client_subscriptions") || "[]");
-      existingSubs.push({
-        id: "sub" + Date.now(),
-        clientEmail: newClient.email,
-        clientName: newClient.name,
-        offre: offre.nom,
-        prix: `${offre.prix} FCFA`,
-        statut: "En attente de validation",
-        dateDemande: new Date().toISOString(),
-      });
-      localStorage.setItem("ilnet_client_subscriptions", JSON.stringify(existingSubs));
-
-      setIsLoading(false);
-      onSuccess();
-    }, 800);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="text-lg font-bold text-gray-800">Créer mon compte</h3>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-xl leading-none"
-              aria-label="Fermer"
-            >
-              ✕
-            </button>
-          </div>
-          <p className="text-sm text-gray-500 mb-5">
-            Pour souscrire à <strong>{offre.nom}</strong> ({offre.prix} FCFA/mois), créez d&apos;abord votre compte client.
-          </p>
-
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nom complet"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Téléphone"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.phone}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="address"
-              placeholder="Adresse"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.address}
-              onChange={handleChange}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Mot de passe"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirmer le mot de passe"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 mt-2"
-            >
-              {isLoading ? "Création en cours..." : "Créer mon compte et souscrire"}
-            </button>
-          </form>
-
-          <p className="text-center text-xs text-gray-400 mt-4">
-            Déjà client ?{" "}
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Connectez-vous
-            </Link>{" "}
-            puis souscrivez depuis votre espace.
-          </p>
-        </div>
-      </div>
-    </div>
   );
 }
